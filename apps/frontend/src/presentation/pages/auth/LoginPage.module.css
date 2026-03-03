@@ -1,29 +1,49 @@
 .container {
+    position: relative;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     min-height: 100vh;
-    background-color: var(--background-color);
+    padding: 1rem;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    background-color: var(--color-background);
+    background-image: linear-gradient(rgba(80, 85, 90, 0.5), rgba(40, 45, 50, 0.8)), url('/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(6px);
+    z-index: -1;
 }
 
 .card {
-    background-color: var(--surface-color);
-    padding: 3rem;
+    background-color: var(--color-surface);
+    padding: 2.5rem 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     width: 100%;
     max-width: 400px;
-    text-align: center;
+    border: 1px solid var(--color-border);
 }
 
-.title {
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-    font-size: 1.5rem;
+.logo {
+    display: block;
+    max-width: 150px;
+    margin: 0 auto 0.5rem auto;
 }
 
 .subtitle {
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
+    text-align: center;
     margin-bottom: 2rem;
     font-size: 0.875rem;
 }
@@ -31,47 +51,48 @@
 .form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
 }
 
 .inputGroup {
     display: flex;
     flex-direction: column;
-    text-align: left;
     gap: 0.5rem;
 }
 
 .inputGroup label {
+    color: var(--color-text-main);
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--text-primary);
 }
 
 .inputGroup input {
     padding: 0.75rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
     font-size: 1rem;
     transition: border-color 0.2s;
+    background-color: var(--color-white);
+    color: var(--color-text-main);
 }
 
 .inputGroup input:focus {
     outline: none;
-    border-color: var(--primary-color);
+    border-color: var(--color-primary);
 }
 
 .button {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-white);
     padding: 0.75rem;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
+    font-weight: 600;
+    margin-top: 0.5rem;
     transition: background-color 0.2s;
 }
 
 .button:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--color-primary-hover);
 }

@@ -7,25 +7,25 @@ export const LoginPage: React.FC = () => {
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        // Redirección temporal a modo de placeholder para continuar el flujo
-        navigate('/cashier');
+        // Redireccion temporal a modo de placeholder para continuar el flujo
+        navigate('/cashier/pos');
     };
 
     return (
         <div className={styles.container}>
             <div className={styles.card}>
-                <h1 className={styles.title}>EasySt SaaS</h1>
-                <p className={styles.subtitle}>Sign in to your account</p>
+                <img src="/mesa de trabajo.png" alt="EasySt SaaS" className={styles.logo} />
+                <p className={styles.subtitle}>Inicia sesion en tu cuenta</p>
                 <form className={styles.form} onSubmit={handleLogin}>
                     <div className={styles.inputGroup}>
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" placeholder="admin@easyst.com" required />
+                        <label htmlFor="email">Correo electronico</label>
+                        <input type="email" id="email" placeholder="admin@kioscocacho.com" required />
                     </div>
                     <div className={styles.inputGroup}>
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" required />
+                        <label htmlFor="password">Contrasena</label>
+                        <input type="password" id="password" placeholder="********" required />
                     </div>
-                    <button type="submit" className={styles.button}>Sign In</button>
+                    <button type="submit" className={styles.button}>Ingresar al sistema</button>
                 </form>
             </div>
         </div>
