@@ -1,18 +1,166 @@
-/* apps/frontend/src/presentation/pages/admin/dashboard/DashboardPage.module.css */
 .container {
     padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.title {
+    font-size: 1.75rem;
+    color: var(--color-text-main);
+}
+
+.date {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    text-transform: capitalize;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
 }
 
 .card {
-    background: white;
+    background: var(--color-surface);
     padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid #eee;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: var(--color-primary);
+}
+
+.fullWidth {
+    grid-column: 1 / -1;
+    cursor: default;
+}
+
+.fullWidth:hover {
+    transform: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border-color: var(--color-border);
+}
+
+.cardTitle {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.mainAmount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+}
+
+.cardHint {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-top: auto;
+}
+
+.cashierList,
+.eventLog {
+    list-style: none;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.emptyState {
+    color: var(--color-text-muted);
+    font-style: italic;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.modalContent {
+    background: var(--color-surface);
+    padding: 2.5rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: slideUp 0.3s ease-out;
+}
+
+.modalContent h2 {
+    color: var(--color-text-main);
+    border-bottom: 2px solid var(--color-background);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.closeButton {
+    width: 100%;
+    padding: 0.875rem;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+    margin-top: 1rem;
+}
+
+.closeButton:hover {
+    background-color: var(--color-primary-hover);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

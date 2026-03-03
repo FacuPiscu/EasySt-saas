@@ -19,7 +19,27 @@ export const apiClient = {
         });
 
         if (!response.ok) {
-            throw new Error('Error en la peticion de red');
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error || 'Error en la peticion de red');
+        }
+
+        return response.json();
+    },
+    post: async (endpoint: string, body: any) => {
+        const token = localStorage.getItem('easyst_token');
+
+        const response = await fetch(`${BASE_URL}${endpoint}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token ? `Bearer ${token}` : '',
+            },
+            body: JSON.stringify(body),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error || 'Error en la peticion de red');
         }
 
         return response.json();
