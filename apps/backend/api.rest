@@ -1,0 +1,95 @@
+### Register new SaaS Tenant (Public)
+POST http://localhost:3001/api/tenants/register
+Content-Type: application/json
+
+{
+  "tenantName": "Easyst Demo Store",
+  "adminName": "John Doe",
+  "adminEmail": "johndoe@demo.com",
+  "adminPassword": "strongPassword123"
+}
+
+### Login
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "johndoe@demo.com",
+  "password": "strongPassword123"
+}
+
+### Open a Cash Shift
+POST http://localhost:3001/api/cash-register/open
+Content-Type: application/json
+Authorization: Bearer TU_TOKEN_AQUI
+
+{
+  "initialAmount": 5000
+}
+
+### Register a new Sale (Required to have an open shift)
+POST http://localhost:3001/api/sales
+Content-Type: application/json
+Authorization: Bearer TU_TOKEN_AQUI
+
+{
+  "items": [
+    {
+      "productId": "prod-coca-cola",
+      "quantity": 2,
+      "barcode": "COCA001"
+    }
+  ],
+  "payments": [
+    {
+      "method": "CASH",
+      "amount": 3000
+    }
+  ]
+}
+
+### Sync Offline Sales (Bulk Insert)
+POST http://localhost:3001/api/sales/sync
+Content-Type: application/json
+Authorization: Bearer TU_TOKEN_AQUI
+
+{
+  "sales": [
+    {
+      "id": "c6a2c270-3d84-4869-9060-1e5b56ab9652",
+      "items": [
+        {
+          "id": "52857242-b06c-4b53-b3c1-2361ac86e100",
+          "productId": "prod-coca-cola",
+          "quantity": 3,
+          "barcode": "COCA001"
+        }
+      ],
+      "payments": [
+        {
+          "id": "9ea52e93-276e-4171-86cc-e74fecdb4122",
+          "method": "CASH",
+          "amount": 4500
+        }
+      ]
+    }
+  ]
+}
+
+### Close a Cash Shift (Blind Closing)
+POST http://localhost:3001/api/cash-register/close
+Content-Type: application/json
+Authorization: Bearer TU_TOKEN_AQUI
+
+{
+  "sessionId": "TU_SESSION_ID_AQUI",
+  "declaredAmount": 8000
+}
+
+### Get Products to Restock Report
+GET http://localhost:3001/api/reports/restock?tenantId=tenant-demo
+Authorization: Bearer TU_TOKEN_AQUI
+
+### Get Daily Sales Report (Replace Date if needed)
+GET http://localhost:3001/api/reports/daily-sales?tenantId=tenant-demo&date=2026-03-02
+Authorization: Bearer TU_TOKEN_AQUI

@@ -1,0 +1,211 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// --- CORE MODELS ---
+
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  plan      String   @default("DEMO") // "DEMO", "PRO"
+  isActive  Boolean  @default(true)   @map("is_active")
+  createdAt DateTime @default(now())  @map("created_at")
+  updatedAt DateTime @updatedAt       @map("updated_at")
+
+  // Relaciones Inversas
+  users     User[]
+  products  Product[]
+  sales     Sale[]
+  saleItems SaleItem[]
+  customers Customer[]
+  payments  SalePayment[]
+  categories Category[]
+  sessions  CashRegisterSession[]
+
+  @@map("tenants")
+}
+
+enum Role {
+  ADMIN
+  CASHIER
+}
+
+model User {
+  id           String   @id @default(uuid())
+  tenantId     String   @map("tenant_id")
+  email        String
+  passwordHash String   @map("password_hash")
+  name         String
+  role         Role     @default(CASHIER)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sales    Sale[]
+  sessions CashRegisterSession[]
+
+  @@unique([tenantId, email])
+  @@index([tenantId])
+  @@map("users")
+}
+
+// --- PRODUCTOS Y STOCK ---
+
+model Category {
+  id        String    @id @default(uuid())
+  tenantId  String    @map("tenant_id")
+  name      String
+  createdAt DateTime  @default(now())  @map("created_at")
+  updatedAt DateTime  @updatedAt       @map("updated_at")
+
+  tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  products  Product[]
+
+  @@unique([tenantId, name])
+  @@index([tenantId])
+  @@map("categories")
+}
+
+model Product {
+  id           String   @id @default(uuid())
+  tenantId     String
+  categoryId   String?  @map("category_id")
+  name         String
+  description  String?
+  price        Decimal
+  reorderPoint Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relaciones
+  tenant    Tenant    @relation(fields: [tenantId], references: [id])
+  category  Category? @relation(fields: [categoryId], references: [id])
+  batches   Batch[]
+  saleItems SaleItem[] 
+}
+
+model Batch {
+  id             String    @id @default(uuid())
+  productId      String
+  barcode        String
+  cost           Decimal
+  stock          Int       @default(0)
+  expirationDate DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  product        Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  @@index([barcode])
+  @@map("batches")
+}
+
+// --- VENTAS Y CAJA ---
+
+enum SessionStatus {
+  OPEN
+  CLOSED
+}
+
+model CashRegisterSession {
+  id               String        @id @default(uuid())
+  tenantId         String        @map("tenant_id")
+  userId           String        @map("user_id")
+  startTime        DateTime      @default(now()) @map("start_time")
+  endTime          DateTime?     @map("end_time")
+  initialAmount    Decimal       @db.Decimal(10, 2) @map("initial_amount")
+  declaredAmount   Decimal?      @db.Decimal(10, 2) @map("declared_amount")
+  calculatedAmount Decimal?      @db.Decimal(10, 2) @map("calculated_amount")
+  status           SessionStatus @default(OPEN)
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @updatedAt @map("updated_at")
+
+  tenant           Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user             User          @relation(fields: [userId], references: [id])
+  sales            Sale[]
+
+  @@index([tenantId, userId])
+  @@map("cash_register_sessions")
+}
+
+model Sale {
+  id          String    @id @default(uuid())
+  tenantId    String    @map("tenant_id")
+  userId      String    @map("user_id")
+  customerId  String?   @map("customer_id")
+  sessionId   String?   @map("session_id")
+  totalAmount Decimal   @db.Decimal(10, 2) @map("total_amount")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  tenant      Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user        User                 @relation(fields: [userId], references: [id])
+  customer    Customer?            @relation(fields: [customerId], references: [id])
+  session     CashRegisterSession? @relation(fields: [sessionId], references: [id])
+  items       SaleItem[]
+  payments    SalePayment[]
+
+  @@index([tenantId, createdAt])
+  @@map("sales")
+}
+
+model SaleItem {
+  id        String   @id @default(uuid())
+  tenantId  String   @map("tenant_id")
+  saleId    String   @map("sale_id")
+  productId String   @map("product_id")
+  quantity  Int
+  price     Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sale    Sale    @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@index([tenantId, saleId])
+  @@index([tenantId, productId])
+  @@map("sale_items")
+}
+
+enum PaymentMethod {
+  CASH
+  CREDIT_CARD
+  DEBIT_CARD
+  TRANSFER
+}
+
+model SalePayment {
+  id        String        @id @default(uuid())
+  tenantId  String        @map("tenant_id")
+  saleId    String        @map("sale_id")
+  amount    Decimal       @db.Decimal(10, 2)
+  method    PaymentMethod
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+
+  tenant    Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sale      Sale          @relation(fields: [saleId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, saleId])
+  @@map("sale_payments")
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  tenantId  String   @map("tenant_id")
+  name      String
+  dni       String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sales     Sale[]
+
+  @@unique([tenantId, dni])
+  @@index([tenantId])
+  @@map("customers")
+}

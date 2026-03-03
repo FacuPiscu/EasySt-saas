@@ -1,0 +1,99 @@
+### 1. Crear el primer cliente (Tenant) y Usuario Admin
+POST http://localhost:3001/api/tenants/register
+Content-Type: application/json
+
+{
+  "tenantName": "Kiosco Cacho",
+  "adminName": "Carlos Perez",
+  "adminEmail": "carlos@kioscocacho.com",
+  "adminPassword": "password123"
+}
+
+### 2. Login (Para obtener el Token VIP)
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "carlos@kioscocacho.com",
+  "password": "password123"
+}
+
+### 3. Abrir Turno de Caja (Ruta Protegida)
+# ATENCIÓN: Reemplazá la palabra PEGAR_TOKEN_ACA por el token larguísimo que te devolvió el paso 2 (sin las comillas)
+POST http://localhost:3001/api/cash-register/open
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyNTJhNzlmNi1iNWEzLTQ2MTctYTc1OS1lYzkyNzg4ZTk4MGYiLCJ0ZW5hbnRJZCI6IjFkMmM4YmM3LTIzYTktNDgxZC1hNmNjLWI2NzYyYmVlMjBjYyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3MjU1NDM1MiwiZXhwIjoxNzcyNTgzMTUyfQ.UaSTaMuu2i7m7cxaUh28hTyvXF7hTv5PAgf0U7q2x_o
+
+{
+  "initialAmount": 5000
+}
+
+### 4. Crear una Categoría (Ruta Protegida)
+# Acordate de usar tu Token de siempre
+POST http://localhost:3001/api/categories
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyNTJhNzlmNi1iNWEzLTQ2MTctYTc1OS1lYzkyNzg4ZTk4MGYiLCJ0ZW5hbnRJZCI6IjFkMmM4YmM3LTIzYTktNDgxZC1hNmNjLWI2NzYyYmVlMjBjYyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3MjU1NTY3MiwiZXhwIjoxNzcyNTg0NDcyfQ.PePE8L_y4c2IeGjtoRDA-9SghScpDI6LOGR-BFCx_7c
+
+{
+  "name": "Snacks"
+}
+
+### 5. Crear un Producto (Ruta Protegida)
+# ATENCIÓN: Reemplazá PEGAR_ID_CATEGORIA_ACA por el "id" que te devolvió la prueba 4
+POST http://localhost:3001/api/products
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyNTJhNzlmNi1iNWEzLTQ2MTctYTc1OS1lYzkyNzg4ZTk4MGYiLCJ0ZW5hbnRJZCI6IjFkMmM4YmM3LTIzYTktNDgxZC1hNmNjLWI2NzYyYmVlMjBjYyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3MjU1NTY3MiwiZXhwIjoxNzcyNTg0NDcyfQ.PePE8L_y4c2IeGjtoRDA-9SghScpDI6LOGR-BFCx_7c
+
+{
+  "name": "papas fritas",
+  "description": "papas fritas de 100 gr",
+  "price": 2500.00,
+  "reorderPoint": 10,
+  "categoryId": "9d973cbb-847d-4bc3-8735-303df0670b48"
+}
+
+### 6. Agregar un Lote de Stock (Ruta Protegida)
+# ATENCIÓN: Reemplazá PEGAR_ID_PRODUCTO_ACA en la URL por el "id" de la Coca-Cola que te devolvió la prueba 5
+POST http://localhost:3001/api/products/5a737555-891e-446f-bcf7-d59a37643a00/batches
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyNTJhNzlmNi1iNWEzLTQ2MTctYTc1OS1lYzkyNzg4ZTk4MGYiLCJ0ZW5hbnRJZCI6IjFkMmM4YmM3LTIzYTktNDgxZC1hNmNjLWI2NzYyYmVlMjBjYyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3MjU1NTY3MiwiZXhwIjoxNzcyNTg0NDcyfQ.PePE8L_y4c2IeGjtoRDA-9SghScpDI6LOGR-BFCx_7c
+
+{
+  "barcode": "7791234567890",
+  "cost": 1800.00,
+  "stock": 50,
+  "expirationDate": "2026-12-31T23:59:59Z"
+}
+
+### 7. Registrar una Venta (Ruta Protegida)
+# 1. Poné tu Token en el Bearer
+# 2. Reemplazá PEGAR_ID_PRODUCTO_ACA por el ID de las papas fritas (el que empieza con 5a737555... que se ve en tu última foto)
+POST http://localhost:3001/api/sales
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyNTJhNzlmNi1iNWEzLTQ2MTctYTc1OS1lYzkyNzg4ZTk4MGYiLCJ0ZW5hbnRJZCI6IjFkMmM4YmM3LTIzYTktNDgxZC1hNmNjLWI2NzYyYmVlMjBjYyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3MjU1NTY3MiwiZXhwIjoxNzcyNTg0NDcyfQ.PePE8L_y4c2IeGjtoRDA-9SghScpDI6LOGR-BFCx_7c
+
+{
+  "items": [
+    {
+      "productId": "5a737555-891e-446f-bcf7-d59a37643a00",
+      "quantity": 2,
+      "price": 2500.00
+    }
+  ],
+  "payments": [
+    {
+      "method": "CASH",
+      "amount": 5000.00
+    }
+  ]
+}
+
+### 8. Ver Ventas del Día (Dashboard)
+# Acordate de poner tu Token
+GET http://localhost:3001/api/reports/daily-sales
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyNTJhNzlmNi1iNWEzLTQ2MTctYTc1OS1lYzkyNzg4ZTk4MGYiLCJ0ZW5hbnRJZCI6IjFkMmM4YmM3LTIzYTktNDgxZC1hNmNjLWI2NzYyYmVlMjBjYyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3MjU1NTY3MiwiZXhwIjoxNzcyNTg0NDcyfQ.PePE8L_y4c2IeGjtoRDA-9SghScpDI6LOGR-BFCx_7c
+
+### 9. Ver Productos con Bajo Stock (Dashboard)
+# Acordate de poner tu Token
+GET http://localhost:3001/api/reports/low-stock
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyNTJhNzlmNi1iNWEzLTQ2MTctYTc1OS1lYzkyNzg4ZTk4MGYiLCJ0ZW5hbnRJZCI6IjFkMmM4YmM3LTIzYTktNDgxZC1hNmNjLWI2NzYyYmVlMjBjYyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3MjU1NTY3MiwiZXhwIjoxNzcyNTg0NDcyfQ.PePE8L_y4c2IeGjtoRDA-9SghScpDI6LOGR-BFCx_7c

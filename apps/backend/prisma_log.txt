@@ -1,0 +1,2 @@
+﻿Datasource "db": PostgreSQL database "easyst_demo", schema "public" at "localhost:5432"
+
