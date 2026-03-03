@@ -7,4 +7,5 @@ export interface IProductRepository {
     create(tenantId: string, product: Product): Promise<void>;
     update(tenantId: string, product: Product): Promise<void>;
     delete(tenantId: string, id: string): Promise<void>;
+    bulkImport(tenantId: string, products: Product[]): Promise<void>;
 }

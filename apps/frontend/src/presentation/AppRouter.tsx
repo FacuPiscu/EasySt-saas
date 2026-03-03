@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 // Importacion de vistas
 import { LoginPage } from './pages/auth/LoginPage';
 import { EmployeeManagementPage } from './pages/admin/employees/EmployeeManagementPage';
+import { StockPage } from './pages/admin/stock/StockPage';
 import { DashboardPage } from './pages/admin/dashboard/DashboardPage'; // <-- Nueva!
 import { PointOfSalePage } from './pages/cashier/PointOfSalePage';
 import { MainLayout } from './components/layout/MainLayout';
@@ -30,6 +31,7 @@ export const AppRouter: React.FC = () => {
                 <Route path="/admin" element={<MainLayout />}>
                     <Route path="dashboard" element={<DashboardPage />} />
                     <Route path="employees" element={<EmployeeManagementPage />} />
+                    <Route path="stock" element={<StockPage />} />
                     {/* Redirección interna si entran solo a /admin */}
                     <Route index element={<Navigate to="dashboard" />} />
                 </Route>

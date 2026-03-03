@@ -176,4 +176,73 @@ export class PrismaProductRepository implements IProductRepository {
             where: { id },
         });
     }
+
+    public async bulkImport(tenantId: string, products: Product[]): Promise<void> {
+        // En español: Carga masiva en lotes (Chunks) de alta seguridad sin Transaction Lock.
+        // Se procesan en bloques de 5 operaciones concurrentes para no ahogar el Connection Pooler local de PG.
+        const CHUNK_SIZE = 5;
+
+        for (let i = 0; i < products.length; i += CHUNK_SIZE) {
+            const chunk = products.slice(i, i + CHUNK_SIZE);
+
+            await Promise.all(
+                chunk.map(product =>
+                    prisma.product.upsert({
+                        where: { id: product.id },
+                        update: {
+                            name: product.name,
+                            description: product.description,
+                            price: product.price,
+                            reorderPoint: product.reorderPoint,
+                            categoryId: product.categoryId,
+                            updatedAt: new Date(),
+                            batches: {
+                                upsert: product.batches.map((batch) => ({
+                                    where: { id: batch.id },
+                                    update: {
+                                        barcode: batch.barcode,
+                                        cost: batch.cost,
+                                        stock: batch.stock,
+                                        expirationDate: batch.expirationDate,
+                                        updatedAt: new Date()
+                                    },
+                                    create: {
+                                        id: batch.id,
+                                        barcode: batch.barcode,
+                                        cost: batch.cost,
+                                        stock: batch.stock,
+                                        expirationDate: batch.expirationDate,
+                                        createdAt: batch.createdAt,
+                                        updatedAt: batch.updatedAt
+                                    }
+                                }))
+                            }
+                        },
+                        create: {
+                            id: product.id,
+                            tenantId: tenantId,
+                            name: product.name,
+                            description: product.description,
+                            price: product.price,
+                            reorderPoint: product.reorderPoint,
+                            categoryId: product.categoryId,
+                            createdAt: product.createdAt,
+                            updatedAt: product.updatedAt,
+                            batches: {
+                                create: product.batches.map(batch => ({
+                                    id: batch.id,
+                                    barcode: batch.barcode,
+                                    cost: batch.cost,
+                                    stock: batch.stock,
+                                    expirationDate: batch.expirationDate,
+                                    createdAt: batch.createdAt,
+                                    updatedAt: batch.updatedAt
+                                }))
+                            }
+                        }
+                    })
+                )
+            );
+        }
+    }
 }

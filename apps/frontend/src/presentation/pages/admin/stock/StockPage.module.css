@@ -1,0 +1,390 @@
+.container {
+    padding: 2.5rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.headerTitle h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin-bottom: 0.25rem;
+}
+
+.headerTitle p {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+}
+
+.headerActions {
+    display: flex;
+    gap: 1rem;
+}
+
+.primaryButton,
+.secondaryButton {
+    padding: 0.6rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.primaryButton {
+    background-color: var(--color-primary);
+    color: white;
+    border: 1px solid var(--color-primary);
+}
+
+.primaryButton:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.secondaryButton {
+    background-color: transparent;
+    color: var(--color-text-main);
+    border: 1px solid var(--color-border);
+}
+
+.secondaryButton:hover {
+    background-color: var(--color-background);
+}
+
+.importPanel {
+    background-color: var(--color-surface);
+    border: 1px dashed var(--color-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.importPanelHeader h3 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: var(--color-text-main);
+}
+
+.logList {
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: var(--color-background);
+    padding: 1rem;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    list-style: none;
+}
+
+.logList li {
+    margin-bottom: 0.25rem;
+}
+
+.tableContainer {
+    background-color: var(--color-surface);
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    /* Cierra los bordes de la tabla al div */
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table thead {
+    background-color: var(--color-background);
+}
+
+.table th {
+    padding: 1rem 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.table td {
+    padding: 1.25rem 1.5rem;
+    font-size: 0.95rem;
+    color: var(--color-text-main);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table tbody tr:hover {
+    background-color: var(--color-background);
+    /* Highlight fluido */
+}
+
+.primaryCell {
+    font-weight: 600;
+}
+
+.okText {
+    color: var(--color-primary);
+    font-size: 0.85rem;
+}
+
+.warningText {
+    color: #f59e0b;
+    /* Amarillo advertencia */
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.badge {
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.badgeSuccess {
+    background-color: rgba(94, 179, 127, 0.1);
+    color: var(--color-primary);
+}
+
+.badgeDanger {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    /* Rojo emergencia */
+}
+
+.actionButton {
+    background: transparent;
+    color: var(--color-primary);
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.actionButton:hover {
+    text-decoration: underline;
+}
+
+.loadingState,
+.emptyState {
+    padding: 3rem;
+    text-align: center;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+/* ===================================== 
+ * NUEVAS CLASES PARA MODAL Y CARGA MASIVA
+ * ===================================== */
+
+.clickableRow {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.clickableRow:hover {
+    background-color: rgba(94, 179, 127, 0.05) !important;
+}
+
+.importConfirmPanel {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 15px -3px rgba(94, 179, 127, 0.1);
+}
+
+.confirmHeader {
+    margin-bottom: 1.5rem;
+}
+
+.confirmHeader h3 {
+    font-size: 1.15rem;
+    color: var(--color-text-main);
+    margin-bottom: 0.5rem;
+}
+
+.confirmHeader p {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+}
+
+.confirmActions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.cancelButton,
+.confirmButton {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancelButton {
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid #ef4444;
+}
+
+.cancelButton:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.confirmButton {
+    background-color: var(--color-primary);
+    color: white;
+    border: 1px solid var(--color-primary);
+    box-shadow: 0 4px 6px -1px rgba(94, 179, 127, 0.3);
+}
+
+.confirmButton:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.modalContent {
+    background: var(--color-surface);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.3s ease-out;
+}
+
+.modalHeader {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.modalHeader h2 {
+    color: var(--color-text-main);
+    margin: 0 0 0.25rem 0;
+}
+
+.modalSubtitle {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+}
+
+.modalBody {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.modalBody h3 {
+    margin-bottom: 1rem;
+    color: var(--color-text-main);
+}
+
+.batchesList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.batchCard {
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: 8px;
+    position: relative;
+}
+
+.batchCardWarning {
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.05);
+}
+
+.batchInfo {
+    margin-bottom: 0.35rem;
+    color: var(--color-text-main);
+    font-size: 0.95rem;
+}
+
+.batchInfo strong {
+    color: var(--color-text-muted);
+    display: inline-block;
+    width: 140px;
+}
+
+.expiringTag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #f59e0b;
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.modalFooter {
+    padding: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: flex-end;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

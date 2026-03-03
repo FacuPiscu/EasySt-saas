@@ -16,6 +16,7 @@ export const apiClient = {
                 'Content-Type': 'application/json',
                 'Authorization': token ? `Bearer ${token}` : '',
             },
+            cache: 'no-store'
         });
 
         if (!response.ok) {
