@@ -1,25 +1,36 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { MainLayout } from './components/layout/MainLayout';
+
+// Importacion de vistas
 import { LoginPage } from './pages/auth/LoginPage';
 import { EmployeeManagementPage } from './pages/admin/employees/EmployeeManagementPage';
 import { PointOfSalePage } from './pages/cashier/PointOfSalePage';
+import { MainLayout } from './components/layout/MainLayout';
 
+/**
+ * Enrutador principal de la aplicacion.
+ * Gestiona la navegacion publica y las rutas protegidas por rol.
+ * NOTA: Los Guards de seguridad se implementaran en una fase posterior.
+ */
 export const AppRouter: React.FC = () => {
     return (
         <BrowserRouter>
             <Routes>
-                {/* Rutas Públicas */}
-                <Route path="/" element={<LoginPage />} />
+                {/* Rutas Publicas */}
+                <Route path="/login" element={<LoginPage />} />
 
-                {/* Rutas Privadas (Protegidas por Layout) */}
-                <Route element={<MainLayout />}>
-                    <Route path="/cashier" element={<PointOfSalePage />} />
-                    <Route path="/admin/employees" element={<EmployeeManagementPage />} />
+                {/* Rutas de Administrador (Dentro del Layout Principal) */}
+                <Route path="/admin" element={<MainLayout />}>
+                    <Route path="employees" element={<EmployeeManagementPage />} />
                 </Route>
 
-                {/* Ruta de Comodín (Fallback) */}
-                <Route path="*" element={<Navigate to="/" replace />} />
+                {/* Rutas de Cajero (Dentro del Layout Principal) */}
+                <Route path="/cashier" element={<MainLayout />}>
+                    <Route path="pos" element={<PointOfSalePage />} />
+                </Route>
+
+                {/* Redireccion por defecto */}
+                <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
         </BrowserRouter>
     );
