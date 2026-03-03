@@ -14,8 +14,11 @@ export const MainLayout: React.FC = () => {
     return (
         <div className={styles.container}>
             <aside className={styles.sidebar}>
-                <div className={styles.logo}>
-                    <h2>EasySt V2</h2>
+                <div className={styles.logoContainer}>
+                    <img src="/mesa de trabajo.png" alt="EasySt Logo" className={styles.logoImage} />
+                    <h2 className={styles.systemName}>
+                        EasySt <span className={styles.versionTag}>V2</span>
+                    </h2>
                     <span className={styles.roleBadge}>{userRole}</span>
                 </div>
                 <nav className={styles.nav}>
