@@ -9,6 +9,8 @@ import { batchRoutes } from "./routes/batchRoutes";
 import { authRoutes } from "./routes/authRoutes";
 import { reportRoutes } from "./routes/reportRoutes";
 import { cashRegisterRoutes } from "./routes/CashRegisterRoutes";
+import employeeRoutes from "./routes/employeeRoutes";
+import employeeRoleRoutes from "./routes/employeeRoleRoutes";
 
 const app = express();
 
@@ -25,6 +27,8 @@ app.use("/api/sales", saleRoutes);
 app.use("/api/customers", customerRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/cash-register", cashRegisterRoutes);
+app.use("/api/employees", employeeRoutes);
+app.use("/api/roles", employeeRoleRoutes);
 
 // Punto de control de estado interno (Health check)
 app.get("/api/health", (req, res) => {

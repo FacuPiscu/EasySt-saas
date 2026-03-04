@@ -4,10 +4,10 @@ import styles from './MainLayout.module.css';
 
 export const MainLayout: React.FC = () => {
     const navigate = useNavigate();
-    const userRole = localStorage.getItem('user_role'); // 'ADMIN' o 'CASHIER'
+    const userRole = sessionStorage.getItem('user_role'); // 'ADMIN' o 'CASHIER'
 
     const handleLogout = () => {
-        localStorage.clear();
+        sessionStorage.clear();
         navigate('/login');
     };
 

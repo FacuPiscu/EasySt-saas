@@ -22,8 +22,8 @@ export const LoginPage: React.FC = () => {
             // Decodificamos el JWT para extraer el rol encriptado y guardar los flags
             const decodedToken: any = jwtDecode(response.token);
 
-            localStorage.setItem('easyst_token', response.token);
-            localStorage.setItem('user_role', decodedToken.role);
+            sessionStorage.setItem('easyst_token', response.token);
+            sessionStorage.setItem('user_role', decodedToken.role);
 
             // Redirección inteligente basada en el rol real del usuario
             if (decodedToken.role === 'ADMIN') {

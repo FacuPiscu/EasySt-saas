@@ -1,0 +1,17 @@
+src/presentation/controllers/EmployeeController.ts(2,41): error TS2307: Cannot find module '../../application/use-cases/RegisterEmployeeUseCase' or its corresponding type declarations.
+src/presentation/controllers/EmployeeController.ts(3,39): error TS2307: Cannot find module '../../application/use-cases/UpdateEmployeeUseCase' or its corresponding type declarations.
+src/presentation/controllers/EmployeeController.ts(4,39): error TS2307: Cannot find module '../../application/use-cases/DeleteEmployeeUseCase' or its corresponding type declarations.
+src/presentation/controllers/EmployeeController.ts(106,37): error TS2304: Cannot find name 'prisma'.
+src/presentation/controllers/EmployeeController.ts(131,44): error TS2304: Cannot find name 'prisma'.
+src/presentation/controllers/EmployeeController.ts(148,44): error TS2304: Cannot find name 'prisma'.
+src/presentation/controllers/EmployeeController.ts(163,57): error TS2304: Cannot find name 'cryptoService'.
+src/presentation/controllers/EmployeeController.ts(166,27): error TS2304: Cannot find name 'prisma'.
+src/presentation/controllers/EmployeeController.ts(177,50): error TS2304: Cannot find name 'cryptoService'.
+src/presentation/controllers/EmployeeController.ts(178,43): error TS2304: Cannot find name 'prisma'.
+src/presentation/controllers/EmployeeController.ts(191,23): error TS2304: Cannot find name 'prisma'.
+src/presentation/controllers/EmployeeController.ts(196,43): error TS2304: Cannot find name 'prisma'.
+src/presentation/controllers/EmployeeController.ts(226,44): error TS2304: Cannot find name 'prisma'.
+src/presentation/controllers/EmployeeController.ts(237,23): error TS2304: Cannot find name 'prisma'.
+src/presentation/controllers/EmployeeController.ts(240,19): error TS2304: Cannot find name 'prisma'.
+src/presentation/controllers/EmployeeRoleController.ts(16,42): error TS2551: Property 'employeeRole' does not exist on type 'PrismaClient<{ adapter: PrismaPg; }, never, DefaultArgs>'. Did you mean 'employee'?
+src/presentation/controllers/EmployeeRoleController.ts(41,40): error TS2551: Property 'employeeRole' does not exist on type 'PrismaClient<{ adapter: PrismaPg; }, never, DefaultArgs>'. Did you mean 'employee'?

@@ -10,9 +10,9 @@ import { PointOfSalePage } from './pages/cashier/PointOfSalePage';
 import { MainLayout } from './components/layout/MainLayout';
 
 export const AppRouter: React.FC = () => {
-    // Leemos el rol del localStorage
-    const isAuthenticated = !!localStorage.getItem('easyst_token');
-    const userRole = localStorage.getItem('user_role'); // 'ADMIN' o 'CASHIER'
+    // Leemos el rol del sessionStorage
+    const isAuthenticated = !!sessionStorage.getItem('easyst_token');
+    const userRole = sessionStorage.getItem('user_role'); // 'ADMIN' o 'CASHIER'
 
     return (
         <BrowserRouter>

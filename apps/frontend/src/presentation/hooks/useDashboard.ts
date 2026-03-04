@@ -6,9 +6,20 @@ interface PaymentBreakdown {
     amount: number;
 }
 
+interface EmployeeData {
+    id: string;
+    firstName: string;
+    lastName: string;
+    shiftStart: string | null;
+    shiftEnd: string | null;
+    isClockedIn: boolean;
+    role?: { name: string } | null;
+}
+
 interface DailySalesData {
     totalAmount: number;
     breakdown: PaymentBreakdown[];
+    employees: EmployeeData[];
 }
 
 /**
@@ -16,14 +27,21 @@ interface DailySalesData {
  * Implementa un mecanismo de recarga silenciosa (Polling) cada 10 segundos.
  */
 export const useDashboard = () => {
-    const [salesData, setSalesData] = useState<DailySalesData>({ totalAmount: 0, breakdown: [] });
+    const [salesData, setSalesData] = useState<DailySalesData>({ totalAmount: 0, breakdown: [], employees: [] });
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchDashboardData = async () => {
         try {
             // Llamamos al endpoint que construimos previamente en el backend
-            const data = await apiClient.get('/reports/daily-sales');
-            setSalesData(data);
+            const [salesResponse, employeesResponse] = await Promise.all([
+                apiClient.get('/reports/daily-sales').catch(() => ({ totalAmount: 0, breakdown: [] })),
+                apiClient.get('/employees').catch(() => [])
+            ]);
+
+            setSalesData({
+                ...salesResponse,
+                employees: employeesResponse
+            });
         } catch (error) {
             console.error('Error al obtener datos del dashboard:', error);
         } finally {
