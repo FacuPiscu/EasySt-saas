@@ -214,7 +214,7 @@ export class PrismaSaleRepository implements ISaleRepository {
         });
     }
 
-    public async getDailySalesAggregated(tenantId: string, startDate: Date, endDate: Date): Promise<{ totalAmount: number; breakdown: { method: string; amount: number }[] }> {
+    public async getDailySalesAggregated(tenantId: string, startDate: Date, endDate: Date): Promise<{ totalAmount: number; breakdown: { method: string; amount: number }[]; cashiers: { name: string; amount: number }[] }> {
         // En español: Ejecutamos agregaciones directas apuntando a Prisma para aligerar la carga de memoria en el servidor Node.
         // Sumamos el total de venta en cabeceras.
         const totalAgg = await prisma.sale.aggregate({
@@ -250,9 +250,41 @@ export class PrismaSaleRepository implements ISaleRepository {
             amount: item._sum.amount ? Number(item._sum.amount) : 0
         }));
 
+        // Agrupamos las ventas por userId para obtener el desglose de lo que vendió cada cajero
+        const salesByCashier = await prisma.sale.groupBy({
+            by: ['userId'],
+            _sum: {
+                totalAmount: true
+            },
+            where: {
+                tenantId,
+                createdAt: {
+                    gte: startDate,
+                    lte: endDate
+                }
+            }
+        });
+
+        // Hacemos el mapeo manual para buscar el nombre real de cada userId
+        const cashierData = [];
+        for (const sal_cashier of salesByCashier) {
+            const user = await prisma.user.findFirst({
+                where: { id: sal_cashier.userId },
+                include: { employee: true }
+            });
+            const amount = sal_cashier._sum.totalAmount ? Number(sal_cashier._sum.totalAmount) : 0;
+            const name = user?.employee ? `${user.employee.firstName} ${user.employee.lastName}` : (user?.email || 'Desconocido');
+
+            cashierData.push({ name, amount });
+        }
+
+        // Ordenamos descendente por total vendido
+        cashierData.sort((a, b) => b.amount - a.amount);
+
         return {
             totalAmount: totalAgg._sum.totalAmount ? Number(totalAgg._sum.totalAmount) : 0,
-            breakdown
+            breakdown,
+            cashiers: cashierData
         };
     }
 

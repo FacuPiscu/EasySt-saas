@@ -23,6 +23,12 @@
     --color-border: #e5e7eb;
     /* Gris claro para lineas divisorias */
 
+    /* Colores de Estado (Semanticos) */
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-danger: #ef4444;
+    --color-info: #3b82f6;
+
     /* Variables de Layout (Desktop First) */
     --sidebar-width: 260px;
     --header-height: 64px;

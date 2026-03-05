@@ -60,5 +60,5 @@ export const useDashboard = () => {
         return () => clearInterval(intervalId);
     }, []);
 
-    return { salesData, isLoading };
+    return { salesData, isLoading, refreshDashboard: fetchDashboardData };
 };

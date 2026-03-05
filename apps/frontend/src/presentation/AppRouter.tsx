@@ -6,6 +6,7 @@ import { LoginPage } from './pages/auth/LoginPage';
 import { EmployeeManagementPage } from './pages/admin/employees/EmployeeManagementPage';
 import { StockPage } from './pages/admin/stock/StockPage';
 import { DashboardPage } from './pages/admin/dashboard/DashboardPage'; // <-- Nueva!
+import { ReportsPage } from './pages/admin/reports/ReportsPage';
 import { PointOfSalePage } from './pages/cashier/PointOfSalePage';
 import { MainLayout } from './components/layout/MainLayout';
 
@@ -32,6 +33,7 @@ export const AppRouter: React.FC = () => {
                     <Route path="dashboard" element={<DashboardPage />} />
                     <Route path="employees" element={<EmployeeManagementPage />} />
                     <Route path="stock" element={<StockPage />} />
+                    <Route path="reports" element={<ReportsPage />} />
                     {/* Redirección interna si entran solo a /admin */}
                     <Route index element={<Navigate to="dashboard" />} />
                 </Route>
